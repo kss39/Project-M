@@ -121,12 +121,30 @@ public class Tile implements Comparable<Tile>{
         return toInt() - other.toInt();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (! (o instanceof Tile)) {
+            return false;
+        }
+        return this.hashCode() == o.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return this.toInt();
+    }
+
+    /**
+     * {@code Simple} is the enum type used for four different
+     * "simple" in Mahjong.
+     * For your information,
+     * m - 万子
+     * p - 饼子
+     * s - 索子
+     * z - 字牌，东西南北中发白(1234567, respectively)
+     */
     // Use Simple.m if you need
     // for Java Enum syntax.
-    // m - 万子
-    // p - 饼子
-    // s - 索子
-    // z - 字牌，东西南北中发白(1234567, respectively)
     public enum Simple {
         m, p, s, z;
 

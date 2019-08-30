@@ -1,16 +1,22 @@
-import org.junit.Before;
+import org.junit.Rule;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.rules.Timeout;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TileTest {
+    @Rule
+    public Timeout globalTimeout = Timeout.seconds(10); // 10 seconds max per method tested
+
     private static List<Tile> all;
 
-    @Before
-    @Test
-    public void setUp() {
+    // JUnit 5 has deprecated "@Before" and replaced it
+    // with "@BeforeEach".
+    @BeforeEach
+    void setUp() {
         all = Tile.TileFactory.getAll();
         assertNotNull(all);
     }
@@ -63,5 +69,28 @@ class TileTest {
         }
     }
 
-    // TODO: Add the testGet method
+    @Test
+    void testGet() {
+        for (int i = 0; i < 9; i++) {
+            Tile m = Tile.TileFactory.get(Tile.Simple.m, i + 1);
+            Tile p = Tile.TileFactory.get(Tile.Simple.p, i + 1);
+            Tile s = Tile.TileFactory.get(Tile.Simple.s, i + 1);
+            assertEquals(m, all.get(i));
+            assertEquals(p, all.get(i + 9));
+            assertEquals(s, all.get(i + 18));
+        }
+
+        for (int i = 0; i < 7; i++) {
+            Tile z = Tile.TileFactory.get(Tile.Simple.z, i + 1);
+            assertEquals(z, all.get(i + 27));
+        }
+    }
+
+    @Test
+    void testWrongIndex() {
+        assertThrows(IllegalArgumentException.class, () -> Tile.TileFactory.get(-1));
+        assertThrows(IllegalArgumentException.class, () -> Tile.TileFactory.get(34));
+    }
+
+    // TODO: Add Exceptions Handling
 }
