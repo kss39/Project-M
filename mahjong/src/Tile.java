@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Tile implements Comparable<Tile>{
 
-    // Since Mahjong has only 34 kinds of Tiles, it is resouceful
+    // Since Mahjong has only 34 kinds of Tiles, it is resourceful
     // to use interning when acquiring Tiles instead of creating
     // new Tiles.
     /**
@@ -19,22 +19,25 @@ public class Tile implements Comparable<Tile>{
      */
     public static class TileFactory {
         // Stores the Tiles.
-        private static final List<Tile> tiles = new ArrayList<>();
+        private static final List<Tile> tiles = init();
 
         // Initialize the tiles. This should be only called
         // once.
-        private static void init() {
+        // Returns the initialized list of Tile.
+        private static List<Tile> init() {
+            List<Tile> result = new ArrayList<>();
             for (Simple s : Simple.values()) {
                 if (s == Simple.z) {
                     for (int i = 1; i <= 7; i++) {
-                        tiles.add(new Tile(Simple.z, i));
+                        result.add(new Tile(Simple.z, i));
                     }
                 } else {
                     for (int i = 1; i <= 9; i++) {
-                        tiles.add(new Tile(s, i));
+                        result.add(new Tile(s, i));
                     }
                 }
             }
+            return result;
         }
 
         /**
@@ -49,10 +52,6 @@ public class Tile implements Comparable<Tile>{
         public static Tile get(Simple simple, int number) {
             if (Simple.checkInvalid(simple, number)) {
                 throw new IllegalArgumentException("Invalid values");
-            }
-            if (tiles.isEmpty()) {
-                // Initializes the tiles
-                init();
             }
             return tiles.get(simple.ordinal() * 9 + number - 1);
         }
@@ -69,9 +68,6 @@ public class Tile implements Comparable<Tile>{
             if (index < 0 || index > 33) {
                 throw new IllegalArgumentException("Invalid index type");
             }
-            if (tiles.isEmpty()) {
-                init();
-            }
             return tiles.get(index);
         }
 
@@ -80,9 +76,6 @@ public class Tile implements Comparable<Tile>{
          * @return all kinds of {@code Tiles}.
          */
         public static List<Tile> getAll() {
-            if (tiles.isEmpty()) {
-                init();
-            }
             return Collections.unmodifiableList(tiles);
         }
     }

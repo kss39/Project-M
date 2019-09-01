@@ -92,5 +92,13 @@ class TileTest {
         assertThrows(IllegalArgumentException.class, () -> Tile.TileFactory.get(34));
     }
 
-    // TODO: Add Exceptions Handling
+    @Test
+    void testWrongNumber() {
+        assertThrows(IllegalArgumentException.class, () -> Tile.TileFactory.get(Tile.Simple.z, 8));
+        assertThrows(IllegalArgumentException.class, () -> Tile.TileFactory.get(Tile.Simple.z, 10));
+        assertThrows(IllegalArgumentException.class, () -> Tile.TileFactory.get(Tile.Simple.z, 10));
+        for (Tile.Simple simple : Tile.Simple.values()) {
+            assertThrows(IllegalArgumentException.class, () -> Tile.TileFactory.get(simple, 0));
+        }
+    }
 }
