@@ -101,4 +101,52 @@ class TileTest {
             assertThrows(IllegalArgumentException.class, () -> Tile.TileFactory.get(simple, 0));
         }
     }
+
+    @Test
+    void testToInt() {
+        for (Tile t : all) {
+            assertEquals(t, Tile.TileFactory.get(t.toInt()));
+        }
+    }
+
+    @Test
+    void testToString() {
+        for (Tile t : all) {
+            String expected = t.number + t.simple.toString();
+            assertEquals(expected, t.toString());
+        }
+    }
+
+    @Test
+    void testCompareTo() {
+        // Test reflexive
+        for (Tile t : all) {
+            assertEquals(0, t.compareTo(t));
+        }
+
+        // Test symmetric
+        for (Tile t1 : all) {
+            for (Tile t2 : all) {
+                assertEquals(t1.compareTo(t2), -t2.compareTo(t1));
+                assertEquals(t1.toInt() - t2.toInt(), t1.compareTo(t2));
+            }
+        }
+    }
+
+    @Test
+    void testHashCode() {
+        for (Tile t : all) {
+            assertEquals(t.toInt(), t.hashCode());
+        }
+    }
+
+    @Test
+    void testEquals() {
+        for (Tile t : all) {
+            assertEquals(t, t);
+            for (Tile t2 : all) {
+                assertEquals(t.equals(t2), t2.equals(t));
+            }
+        }
+    }
 }

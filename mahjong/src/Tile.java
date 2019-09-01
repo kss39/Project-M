@@ -101,6 +101,7 @@ public class Tile implements Comparable<Tile>{
 
     // Returns the official representation of the Tile.
     // For example, "4p" stands for 四饼.
+    @Override
     public String toString() {
         return number + simple.name();
     }
@@ -110,6 +111,7 @@ public class Tile implements Comparable<Tile>{
         return simple.ordinal() * 9 + number - 1;
     }
 
+    @Override
     public int compareTo(Tile other) {
         return toInt() - other.toInt();
     }
@@ -141,7 +143,7 @@ public class Tile implements Comparable<Tile>{
     public enum Simple {
         m, p, s, z;
 
-        /**
+        /*
          * Returns {@code true} if the {@code Tile} is invalid;
          * {@code false} otherwise.
          *
@@ -150,7 +152,7 @@ public class Tile implements Comparable<Tile>{
          * @return {@code true} if the {@code Tile} is invalid;
          *         {@code false} otherwise
          */
-        public static boolean checkInvalid(Simple simple, int number) {
+        private static boolean checkInvalid(Simple simple, int number) {
             if (simple == Simple.z) {
                 return number <= 0 || number >= 8;
             } else {
