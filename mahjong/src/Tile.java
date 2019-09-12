@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+// TODO: Add 0m
 /**
  * Tiles are the cards used in a Mahjong game.
  * Class Tile represents the immutable Tile ADT and stores
@@ -9,7 +10,7 @@ import java.util.List;
  */
 public class Tile implements Comparable<Tile>{
 
-    // Since Mahjong has only 34 kinds of Tiles, it is resourceful
+    // Since Mahjong has only 37 kinds of Tiles, it is resourceful
     // to use interning when acquiring Tiles instead of creating
     // new Tiles.
     /**
@@ -32,7 +33,7 @@ public class Tile implements Comparable<Tile>{
                         result.add(new Tile(Simple.z, i));
                     }
                 } else {
-                    for (int i = 1; i <= 9; i++) {
+                    for (int i = 0; i <= 9; i++) {
                         result.add(new Tile(s, i));
                     }
                 }
@@ -53,7 +54,7 @@ public class Tile implements Comparable<Tile>{
             if (Simple.checkInvalid(simple, number)) {
                 throw new IllegalArgumentException("Invalid values");
             }
-            return tiles.get(simple.ordinal() * 9 + number - 1);
+            return tiles.get(simple.ordinal() * 10 + number - 1);
         }
 
         /**
@@ -65,7 +66,7 @@ public class Tile implements Comparable<Tile>{
          * @return the {@code Tile} of the given {@code Index}.
          */
         public static Tile get(int index) {
-            if (index < 0 || index > 33) {
+            if (index < 0 || index > 36) {
                 throw new IllegalArgumentException("Invalid index type");
             }
             return tiles.get(index);
@@ -108,9 +109,10 @@ public class Tile implements Comparable<Tile>{
 
     // Returns the index of the Tile.
     public int toInt() {
-        return simple.ordinal() * 9 + number - 1;
+        return simple.ordinal() * 10 + number - 1;
     }
 
+    // TODO: Change here, make 0 == 5
     @Override
     public int compareTo(Tile other) {
         return toInt() - other.toInt();
@@ -156,7 +158,7 @@ public class Tile implements Comparable<Tile>{
             if (simple == Simple.z) {
                 return number <= 0 || number >= 8;
             } else {
-                return number <= 0 || number >= 10;
+                return number < 0 || number >= 10;
             }
 //            switch(simple) {
 //                case z: return number > 0 && number < 8;
